@@ -25,14 +25,37 @@ export default {
 </script>
 
 <template>
-  <div style="background: {{clr}}" class="Color"></div>
-  <h1 v-if="!showhex">Random RGB Color</h1>
-  <h1 v-if="showhex">{{ `RGB: ${r} ${g} ${b}` }}</h1>
-  <h2 v-if="showhex">{{ rgbToHex(r, g, b) }}</h2>
-  <button @click="random">{{ showhex == false ? "Start" : "Random" }}</button>
+  <div class="container">
+    <div class="Color"></div>
+    <h1 v-if="!showhex">Random RGB Color</h1>
+    <h1 v-if="showhex">{{ `RGB: ${r} ${g} ${b}` }}</h1>
+    <h2 v-if="showhex">{{ rgbToHex(r, g, b) }}</h2>
+    <button @click="random">{{ showhex == false ? "Start" : "Random" }}</button>
+  </div>
 </template>
 
 <style>
+.container {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border: 8px solid v-bind(clr);
+  border-radius: 35px;
+  width: 500px;
+  height: 500px;
+  transition: 0.3s;
+  box-shadow: 0px 0px 50px 1px v-bind(clr);
+}
+.Color {
+  width: 100px;
+  height: 100px;
+  background: v-bind(clr);
+  border-radius: 18px;
+  /* border: 3px solid white; */
+  transition: 0.3s;
+}
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -74,11 +97,12 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: v-bind(clr);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
+  outline: none;
 }
 
 #app {
@@ -87,10 +111,5 @@ button:focus-visible {
   padding: 2rem;
   text-align: center;
   justify-content: center;
-}
-.Color {
-  width: 100px;
-  height: 100px;
-  background: v-bind(clr);
 }
 </style>
