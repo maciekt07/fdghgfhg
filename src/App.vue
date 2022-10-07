@@ -1,5 +1,4 @@
 <script stetup>
-import { ref } from "vue";
 export default {
   data() {
     return {
@@ -13,6 +12,9 @@ export default {
     };
   },
   methods: {
+    rgbToHex(r, g, b) {
+      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    },
     random() {
       this.r = Math.floor(Math.random() * 256);
       this.g = Math.floor(Math.random() * 256);
@@ -22,12 +24,16 @@ export default {
       this.messageVisible = false;
       this.message = "";
     },
-    rgbToHex(r, g, b) {
-      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    },
+
     submit() {
+      const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
       console.log(this.message);
       this.messageVisible = true;
+      if (this.message == correctAnswer || this.message == correctAnswer.toUpperCase()) {
+        return "Answer is correct!";
+      } else {
+        return `Answer isn't correct! The correct answer was ${this.rgbToHex(this.r, this.g, this.b)}`;
+      }
     },
   },
 };
@@ -36,7 +42,7 @@ export default {
 <template>
   <div class="container">
     <div class="Color"></div>
-    <h1 v-if="!start">Random RGB Color</h1>
+    <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
     <h3 v-if="start">{{ userInput }}</h3>
 
@@ -48,12 +54,7 @@ export default {
       {{ start == false ? "Start" : "Play Agaim" }}</button
     ><br />
     <p v-if="messageVisible">
-      {{
-        message == rgbToHex(r, g, b)
-          ? "Answer is correct!"
-          : `Answer isn't correct.
-     The correct answer was ${rgbToHex(r, g, b)}`
-      }}
+      {{ submit() }}
     </p>
   </div>
 </template>
