@@ -47,12 +47,12 @@ export default {
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
     <h3 v-if="start">{{ userInput }}</h3>
 
-    <input type="text" v-if="start" v-model="message" placeholder="enter hex code" />
+    <input type="text" v-if="start" v-model="message" placeholder="Enter hex code..." />
     <br />
     <button v-if="start && !messageVisible" @click="submit">Submit</button><br />
 
     <button v-if="messageVisible || !start" @click="random">
-      {{ start == false ? "Start" : "Play Agaim" }}</button
+      {{ start == false ? "Start" : "Play Again" }}</button
     ><br />
     <p v-if="messageVisible">
       {{ submit() }}
