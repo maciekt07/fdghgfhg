@@ -1,5 +1,6 @@
-<script stetup>
-export default {
+<script>
+import Footer from "./components/Footer.vue";
+const main = {
   data() {
     return {
       r: 0,
@@ -17,7 +18,6 @@ export default {
     rgbToHex(r, g, b) {
       return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     },
-
     random() {
       this.r = Math.floor(Math.random() * 256);
       this.g = Math.floor(Math.random() * 256);
@@ -29,7 +29,6 @@ export default {
       this.message = "";
       console.log(`Correct answer: ${this.rgbToHex(this.r, this.g, this.b)}`);
     },
-
     submit() {
       const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
       this.inputDisabled = true;
@@ -45,7 +44,9 @@ export default {
       }
     },
   },
+  components: { Footer },
 };
+export default main;
 </script>
 
 <template>
@@ -75,79 +76,25 @@ export default {
     </p>
   </div>
 
-  <footer v-if="!start">
-    Made with <fa class="heart" icon="heart" /> By
-    <a target="_blank" href="https://github.com/maciekt07">
-      <!-- <fa :icon="['fab', 'github']" />&nbsp; -->
-      github.com/maciekt07</a
-    >
-  </footer>
-  <span></span>
+  <Footer :Hidden="!start" />
 </template>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
-.heart {
-  transition: 0.3s;
-}
-.heart:hover {
-  color: #3abdff;
-}
-a {
-  cursor: pointer;
-  transition: 0.4s all;
-  color: #3abdff;
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
-  padding: 4px;
-}
-a::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #3abdff;
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-  border-radius: 100px;
-}
-
-a:hover {
-  text-shadow: 0px 0px 20px #3abdff;
-}
-
-a:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-footer {
-  width: 100%;
-  color: white;
-  text-align: center;
-  font-size: 20px;
-}
+<style lang="scss" scoped>
+@use "style" as *;
 
 input[type="text"] {
   font-size: 20px;
   padding: 8px;
   border-radius: 8px;
   border: none;
-}
-
-input[type="text"].error:focus,
-input[type="text"].error:focus-visible {
-  outline: 3px solid red;
-}
-
-input[type="text"].sucess:focus,
-input[type="text"].sucess:focus-visible {
-  outline: 3px solid green;
+  &.error:focus,
+  &.error:focus-visible {
+    outline: 3px solid red;
+  }
+  &.sucess:focus,
+  &.sucess:focus-visible {
+    outline: 3px solid green;
+  }
 }
 
 p {
@@ -176,61 +123,5 @@ p {
   border-radius: 18px;
   /* border: 3px solid white; */
   transition: 0.3s;
-}
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1.15em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: v-bind(clr);
-}
-button:focus,
-button:focus-visible {
-  /* outline: 4px auto -webkit-focus-ring-color; */
-  outline: none;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  justify-content: center;
 }
 </style>
