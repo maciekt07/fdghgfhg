@@ -9,6 +9,7 @@ export default {
       start: false,
       messageVisible: false,
       message: "",
+      points: 0,
     };
   },
   methods: {
@@ -60,6 +61,8 @@ export default {
 </template>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 input[type="text"] {
   font-size: 20px;
   padding: 8px;
@@ -72,6 +75,7 @@ p {
   border-radius: 6px;
 }
 .container {
+  font-family: poppins;
   justify-content: center;
   align-items: center;
   display: flex;
