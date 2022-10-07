@@ -1,4 +1,5 @@
 <script stetup>
+import { triggerRef } from "@vue/reactivity";
 export default {
   data() {
     return {
@@ -10,12 +11,14 @@ export default {
       messageVisible: false,
       message: "",
       points: 0,
+      inputDisabled: false,
     };
   },
   methods: {
     rgbToHex(r, g, b) {
       return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     },
+
     random() {
       this.r = Math.floor(Math.random() * 256);
       this.g = Math.floor(Math.random() * 256);
@@ -23,12 +26,14 @@ export default {
       this.clr = `rgb(${this.r}, ${this.g}, ${this.b})`;
       this.start = true;
       this.messageVisible = false;
+      this.inputDisabled = false;
       this.message = "";
+      console.log(`Correct answer: ${this.rgbToHex(this.r, this.g, this.b)}`);
     },
 
     submit() {
       const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
-      console.log(this.message);
+      this.inputDisabled = true;
       this.messageVisible = true;
       if (this.message == correctAnswer || this.message == correctAnswer.toUpperCase()) {
         return "Answer is correct!";
@@ -45,9 +50,7 @@ export default {
     <div class="Color"></div>
     <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
-    <h3 v-if="start">{{ userInput }}</h3>
-
-    <input type="text" v-if="start" v-model="message" placeholder="Enter hex code..." />
+    <input :disabled="inputDisabled" type="text" v-if="start" v-model="message" placeholder="Enter hex code..." />
     <br />
     <button v-if="start && !messageVisible" @click="submit">Submit</button><br />
 
