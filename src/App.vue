@@ -1,4 +1,5 @@
-<script>
+<script stetup>
+import { ref } from "vue";
 export default {
   data() {
     return {
@@ -6,7 +7,9 @@ export default {
       g: 0,
       b: 0,
       clr: "",
-      showhex: false,
+      start: false,
+      messageVisible: false,
+      message: "",
     };
   },
   methods: {
@@ -15,10 +18,16 @@ export default {
       this.g = Math.floor(Math.random() * 256);
       this.b = Math.floor(Math.random() * 256);
       this.clr = `rgb(${this.r}, ${this.g}, ${this.b})`;
-      this.showhex = true;
+      this.start = true;
+      this.messageVisible = false;
+      this.message = "";
     },
     rgbToHex(r, g, b) {
       return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    },
+    submit() {
+      console.log(this.message);
+      this.messageVisible = true;
     },
   },
 };
@@ -27,14 +36,46 @@ export default {
 <template>
   <div class="container">
     <div class="Color"></div>
-    <h1 v-if="!showhex">Random RGB Color</h1>
-    <h1 v-if="showhex">{{ `RGB: ${r} ${g} ${b}` }}</h1>
-    <h2 v-if="showhex">{{ rgbToHex(r, g, b) }}</h2>
-    <button @click="random">{{ showhex == false ? "Start" : "Random" }}</button>
+    <h1 v-if="!start">Random RGB Color</h1>
+    <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
+    <h3 v-if="start">{{ userInput }}</h3>
+
+    <input
+      type="text"
+      v-if="start"
+      v-model="message"
+      placeholder="enter hex code"
+    />
+    <br />
+    <button v-if="start && !messageVisible" @click="submit">Submit</button
+    ><br />
+
+    <button v-if="messageVisible || !start" @click="random">
+      {{ start == false ? "Start" : "Play Agaim" }}</button
+    ><br />
+    <p v-if="messageVisible">
+      {{
+        message == rgbToHex(r, g, b)
+          ? "Answer is correct!"
+          : `Answer isn't correct.
+     The correct answer was ${rgbToHex(r, g, b)}`
+      }}
+    </p>
   </div>
 </template>
 
 <style>
+input[type="text"] {
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+p {
+  background: rgb(77, 77, 77);
+  padding: 10px;
+  border-radius: 6px;
+}
 .container {
   justify-content: center;
   align-items: center;
@@ -44,7 +85,7 @@ export default {
   border: 8px solid v-bind(clr);
   border-radius: 35px;
   width: 500px;
-  height: 500px;
+  height: 650px;
   transition: 0.3s;
   box-shadow: 0px 0px 50px 1px v-bind(clr);
 }
