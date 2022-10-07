@@ -63,19 +63,26 @@ export default {
       :placeholder="!inputDisabled ? 'Enter hex code...' : ''"
     />
     <br />
-    <button v-if="start && !messageVisible" @click="submit">Submit</button><br />
+    <button v-if="start && !messageVisible" @click="submit"><fa icon="check" />&nbsp;Submit</button
+    ><br />
 
     <button v-if="messageVisible || !start" @click="random">
-      {{ start == false ? "Start" : "Play Again" }}</button
+      <span v-if="!start"> <fa icon="play" /> &nbsp;Start</span>
+      <span v-else><fa icon="rotate-right" /> &nbsp;Play Again</span></button
     ><br />
     <p v-if="messageVisible">
       {{ submit() }}
     </p>
   </div>
+
   <footer v-if="!start">
-    Made with <span class="heart">❤</span> By
-    <a target="_blank" href="https://github.com/maciekt07">github.com/maciekt07</a>
+    Made with <fa class="heart" icon="heart" /> By
+    <a target="_blank" href="https://github.com/maciekt07">
+      <!-- <fa :icon="['fab', 'github']" />&nbsp; -->
+      github.com/maciekt07</a
+    >
   </footer>
+  <span></span>
 </template>
 
 <style>
@@ -94,6 +101,7 @@ a {
   display: inline-block;
   position: relative;
   text-decoration: none;
+  padding: 4px;
 }
 a::after {
   content: "";
