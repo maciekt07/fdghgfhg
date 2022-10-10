@@ -14,6 +14,12 @@ $linkColor: #3abdff;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+* {
+  &::selection {
+    background: v-bind(clr);
+    border-radius: 20px;
+  }
+}
 
 body {
   margin: 0;
@@ -38,6 +44,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
   &:hover {
     border-color: v-bind(clr);
   }

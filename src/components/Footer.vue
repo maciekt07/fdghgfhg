@@ -5,7 +5,6 @@
       <!-- <fa :icon="['fab', 'github']" />&nbsp; -->
       github.com/maciekt07</a
     >
-    {{ Hidden }}
   </footer>
 </template>
 

@@ -1,5 +1,6 @@
 <script>
 import Footer from "./components/Footer.vue";
+import Message from "./components/Message.vue";
 const main = {
   data() {
     return {
@@ -9,9 +10,13 @@ const main = {
       clr: "",
       start: false,
       messageVisible: false,
-      message: "",
+      userInput: "",
       points: 0,
       inputDisabled: false,
+      tooShort: false,
+      message1: "",
+      message2: "",
+      points: 0,
     };
   },
   methods: {
@@ -26,54 +31,72 @@ const main = {
       this.start = true;
       this.messageVisible = false;
       this.inputDisabled = false;
-      this.message = "";
+      this.tooShort = false;
+      this.userInput = "";
       console.log(`Correct answer: ${this.rgbToHex(this.r, this.g, this.b)}`);
     },
     submit() {
       const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
       this.inputDisabled = true;
       this.messageVisible = true;
-      if (this.message == correctAnswer || this.message == correctAnswer.toUpperCase()) {
-        return "Answer is correct!";
+      if (this.userInput == correctAnswer || this.userInput == correctAnswer.toUpperCase()) {
+        this.message1 = "Answer is correct!";
+        return true;
       } else {
-        return `Answer isn't correct! The correct answer was ${this.rgbToHex(
-          this.r,
-          this.g,
-          this.b
-        )}`;
+        this.message1 = "Answer isn't correct! The correct answer was";
+        this.message2 = this.rgbToHex(this.r, this.g, this.b);
+        return false;
+      }
+    },
+    submitCheck() {
+      if (this.userInput.length == 7) {
+        this.points++;
+        this.message2 = `Points: ${this.points}`;
+        this.submit();
+        this.tooShort = false;
+      } else {
+        this.tooShort = true;
+        this.messageVisible = true;
+        this.message1 = "Answer is too short!";
+        this.message2 = this.userInput;
       }
     },
   },
-  components: { Footer },
+  components: { Footer, Message },
 };
 export default main;
 </script>
 
 <template>
   <div class="container">
+    <h1 v-if="start" class="points">Points: {{ points }}</h1>
     <div class="Color"></div>
+
     <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
     <input
-      :class="{ sucess: message.length == 7, error: message.length < 7 && message.length > 0 }"
+      :class="{
+        sucess: userInput.length == 7,
+        error: userInput.length < 7 && userInput.length > 0,
+      }"
       :disabled="inputDisabled"
       type="text"
       v-if="start"
       maxlength="7"
-      v-model="message"
+      v-model="userInput"
       :placeholder="!inputDisabled ? 'Enter hex code...' : ''"
     />
     <br />
-    <button v-if="start && !messageVisible" @click="submit"><fa icon="check" />&nbsp;Submit</button
+    <button v-if="(start && !messageVisible) || tooShort" @click="submitCheck">
+      <fa icon="check" />&nbsp;Submit</button
     ><br />
 
-    <button v-if="messageVisible || !start" @click="random">
+    <button v-if="messageVisible || !start || tooShort" @click="random">
       <span v-if="!start"> <fa icon="play" /> &nbsp;Start</span>
       <span v-else><fa icon="rotate-right" /> &nbsp;Play Again</span></button
     ><br />
-    <p v-if="messageVisible">
-      {{ submit() }}
-    </p>
+
+    <Message :Message1="message1" :Message2="message2" :BorderColor="clr" v-if="messageVisible" />
   </div>
 
   <Footer :Hidden="!start" />
@@ -81,6 +104,12 @@ export default main;
 
 <style lang="scss" scoped>
 @use "style" as *;
+
+.points {
+  text-align: left;
+  font-size: 18px;
+  margin-right: 350px;
+}
 
 input[type="text"] {
   font-size: 20px;
@@ -97,11 +126,6 @@ input[type="text"] {
   }
 }
 
-p {
-  background: rgb(77, 77, 77);
-  padding: 10px;
-  border-radius: 6px;
-}
 .container {
   font-family: poppins;
   justify-content: center;
