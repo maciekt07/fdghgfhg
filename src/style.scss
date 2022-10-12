@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo&family=Lato:ital@0;1&family=Poppins:wght@500&display=swap");
 $linkColor: #3abdff;
+$success: green;
+$error: red;
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -17,7 +19,6 @@ $linkColor: #3abdff;
 * {
   &::selection {
     background: v-bind(clr);
-    border-radius: 20px;
   }
 }
 
@@ -61,3 +62,20 @@ button {
   text-align: center;
   justify-content: center;
 }
+
+br {
+  user-select: none;
+}
+
+// @media (prefers-color-scheme: light) {
+//   * {
+//     color: black;
+//   }
+//   button,
+//   p {
+//     background: gray;
+//   }
+//   body {
+//     background: white;
+//   }
+// }

@@ -1,22 +1,24 @@
 <script>
+import { ref } from "@vue/reactivity";
 import Footer from "./components/Footer.vue";
 import Message from "./components/Message.vue";
+import Points from "./components/Points.vue";
+
 const main = {
   data() {
     return {
-      r: 0,
-      g: 0,
-      b: 0,
-      clr: "",
+      r: Number,
+      g: Number,
+      b: Number,
+      points: 0,
       start: false,
       messageVisible: false,
-      userInput: "",
-      points: 0,
       inputDisabled: false,
       tooShort: false,
-      message1: "",
-      message2: "",
-      points: 0,
+      clr: "",
+      userInput: String,
+      message1: String,
+      message2: String,
     };
   },
   methods: {
@@ -39,7 +41,10 @@ const main = {
       const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
       this.inputDisabled = true;
       this.messageVisible = true;
-      if (this.userInput == correctAnswer || this.userInput == correctAnswer.toUpperCase()) {
+      if (
+        this.userInput == correctAnswer ||
+        this.userInput == correctAnswer.toUpperCase()
+      ) {
         this.message1 = "Answer is correct!";
         return true;
       } else {
@@ -50,7 +55,12 @@ const main = {
     },
     submitCheck() {
       if (this.userInput.length == 7) {
-        this.points++;
+        if (
+          this.userInput == this.rgbToHex(this.r, this.g, this.b) ||
+          this.userInput == this.rgbToHex(this.r, this.g, this.b).toUpperCase()
+        ) {
+          this.points++;
+        }
         this.message2 = `Points: ${this.points}`;
         this.submit();
         this.tooShort = false;
@@ -62,21 +72,21 @@ const main = {
       }
     },
   },
-  components: { Footer, Message },
+  components: { Footer, Message, Points },
 };
 export default main;
 </script>
 
 <template>
-  <div class="container">
-    <h1 v-if="start" class="points">Points: {{ points }}</h1>
+  <div class="container" :class="{ start: !start }">
+    <Points v-if="start" :Points="points" />
     <div class="Color"></div>
 
     <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
     <input
       :class="{
-        sucess: userInput.length == 7,
+        success: userInput.length == 7,
         error: userInput.length < 7 && userInput.length > 0,
       }"
       :disabled="inputDisabled"
@@ -89,40 +99,48 @@ export default main;
     <br />
     <button v-if="(start && !messageVisible) || tooShort" @click="submitCheck">
       <fa icon="check" />&nbsp;Submit</button
-    ><br />
+    ><br v-if="start" />
 
-    <button v-if="messageVisible || !start || tooShort" @click="random">
+    <button v-if="(messageVisible && !tooShort) || !start" @click="random">
       <span v-if="!start"> <fa icon="play" /> &nbsp;Start</span>
-      <span v-else><fa icon="rotate-right" /> &nbsp;Play Again</span></button
-    ><br />
+      <span v-else><fa icon="rotate-right" /> &nbsp;Play Again</span>
+    </button>
 
-    <Message :Message1="message1" :Message2="message2" :BorderColor="clr" v-if="messageVisible" />
+    <Message
+      :Message1="message1"
+      :Message2="message2"
+      :BorderColor="clr"
+      v-if="messageVisible"
+    />
   </div>
 
-  <Footer :Hidden="!start" />
+  <Footer v-if="!start" />
 </template>
 
 <style lang="scss" scoped>
 @use "style" as *;
-
-.points {
-  text-align: left;
-  font-size: 18px;
-  margin-right: 350px;
-}
 
 input[type="text"] {
   font-size: 20px;
   padding: 8px;
   border-radius: 8px;
   border: none;
+  transition: 0.2s;
   &.error:focus,
   &.error:focus-visible {
-    outline: 3px solid red;
+    outline: 3px solid $error;
+    box-shadow: 0px 0px 10px 1px $error;
+    &::selection {
+      background: $error;
+    }
   }
-  &.sucess:focus,
-  &.sucess:focus-visible {
-    outline: 3px solid green;
+  &.success:focus,
+  &.success:focus-visible {
+    outline: 3px solid $success;
+    box-shadow: 0px 0px 10px 1px $success;
+    &::selection {
+      background: $success;
+    }
   }
 }
 
@@ -140,12 +158,34 @@ input[type="text"] {
   transition: 0.3s;
   box-shadow: 0px 0px 50px 1px v-bind(clr);
 }
+.start {
+  height: 250px;
+  padding: 30px;
+  border: 8px solid $linkColor;
+  button {
+    margin-bottom: 30px;
+  }
+  // h1 {
+  //   background-color: red;
+  //   background-image: linear-gradient(45deg, #566dff, #8a50f6);
+  //   background-size: 100%;
+  //   background-repeat: repeat;
+  //   -webkit-background-clip: text;
+  //   -webkit-text-fill-color: transparent;
+  //   -moz-background-clip: text;
+  //   -moz-text-fill-color: transparent;
+  // }
+  *::selection {
+    background: lighten($color: $linkColor, $amount: 15);
+    color: rgb(119, 0, 255);
+  }
+}
+
 .Color {
   width: 100px;
   height: 100px;
   background: v-bind(clr);
   border-radius: 18px;
-  /* border: 3px solid white; */
   transition: 0.3s;
 }
 </style>

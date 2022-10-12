@@ -1,12 +1,9 @@
-<script>
-export default {
-  name: "Footer",
-  props: {
-    Message1: "",
-    Message2: "",
-    BorderColor: "",
-  },
-};
+<script setup>
+defineProps({
+  Message1: String,
+  Message2: String,
+  BorderColor: String,
+});
 </script>
 <template>
   <p>

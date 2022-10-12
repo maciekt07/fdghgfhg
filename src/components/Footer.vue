@@ -1,5 +1,5 @@
 <template>
-  <footer v-if="Hidden">
+  <footer>
     Made with <fa class="heart" icon="heart" /> By
     <a target="_blank" href="https://github.com/maciekt07">
       <!-- <fa :icon="['fab', 'github']" />&nbsp; -->
@@ -7,19 +7,15 @@
     >
   </footer>
 </template>
-
-<script>
-export default {
-  name: "Footer",
-  props: {
-    Hidden: {
-      default: false,
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 @use "../style.scss" as *;
+
+@mixin footerSelection() {
+  &::selection {
+    background: lighten($color: #a200ff, $amount: 10);
+  }
+}
+
 footer {
   position: fixed;
   left: 0;
@@ -29,6 +25,7 @@ footer {
   color: white;
   text-align: center;
   font-size: 18px;
+  @include footerSelection();
 }
 .heart {
   transition: 0.3s;
@@ -48,6 +45,7 @@ a {
   color: $linkColor;
   display: inline-block;
   position: relative;
+  @include footerSelection();
   &::after {
     content: "";
     position: absolute;
