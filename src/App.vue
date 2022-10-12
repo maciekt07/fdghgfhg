@@ -119,28 +119,23 @@ export default main;
 
 <style lang="scss" scoped>
 @use "style" as *;
-
 input[type="text"] {
   font-size: 20px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
-  border: none;
+  border: 2px solid transparent;
   transition: 0.2s;
+  background: rgb(52, 52, 52);
+  &:hover {
+    border-color: v-bind(clr);
+  }
   &.error:focus,
   &.error:focus-visible {
-    outline: 3px solid $error;
-    box-shadow: 0px 0px 10px 1px $error;
-    &::selection {
-      background: $error;
-    }
+    @include inputFocus($error);
   }
   &.success:focus,
   &.success:focus-visible {
-    outline: 3px solid $success;
-    box-shadow: 0px 0px 10px 1px $success;
-    &::selection {
-      background: $success;
-    }
+    @include inputFocus($success);
   }
 }
 
