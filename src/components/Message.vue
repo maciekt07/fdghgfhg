@@ -28,6 +28,9 @@ span {
   padding: 4px;
   border-radius: 4px;
   background: gray;
-  margin-top: 20px;
+  margin-top: 25px;
+  &::selection {
+    background: v-bind(BorderColor);
+  }
 }
 </style>

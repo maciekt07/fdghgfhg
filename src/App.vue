@@ -1,5 +1,4 @@
 <script>
-import { ref } from "@vue/reactivity";
 import Footer from "./components/Footer.vue";
 import Message from "./components/Message.vue";
 import Points from "./components/Points.vue";
@@ -126,8 +125,12 @@ input[type="text"] {
   border: 2px solid transparent;
   transition: 0.2s;
   background: rgb(52, 52, 52);
+  color: white;
   &:hover {
     border-color: v-bind(clr);
+    &:disabled {
+      border: 2px solid transparent;
+    }
   }
   &.error:focus,
   &.error:focus-visible {

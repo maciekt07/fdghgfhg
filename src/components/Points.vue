@@ -4,7 +4,7 @@ defineProps({
 });
 </script>
 <template>
-  <h1 class="points">Points: {{ Points }}</h1>
+  <h1 v-if="Points > 0" class="points">Points: {{ Points }}</h1>
 </template>
 
 <style lang="scss" scoped>

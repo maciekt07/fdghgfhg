@@ -9,13 +9,6 @@
 </template>
 <style lang="scss" scoped>
 @use "../style.scss" as *;
-
-@mixin footerSelection() {
-  &::selection {
-    background: lighten($color: #a200ff, $amount: 10);
-  }
-}
-
 footer {
   position: fixed;
   left: 0;
