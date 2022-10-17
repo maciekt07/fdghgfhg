@@ -14,7 +14,7 @@ const main = {
       messageVisible: false,
       inputDisabled: false,
       tooShort: false,
-      clr: "",
+      clr: String,
       userInput: String,
       message1: String,
       message2: String,
@@ -93,6 +93,7 @@ export default main;
       v-if="start"
       maxlength="7"
       v-model="userInput"
+      @keyup.enter="submitCheck"
       :placeholder="!inputDisabled ? 'Enter hex code...' : ''"
     />
     <br />
@@ -126,6 +127,10 @@ input[type="text"] {
   transition: 0.2s;
   background: rgb(52, 52, 52);
   color: white;
+  &:disabled {
+    cursor: not-allowed;
+    color: darken($color: white, $amount: 25);
+  }
   &:hover {
     border-color: v-bind(clr);
     &:disabled {
@@ -162,6 +167,9 @@ input[type="text"] {
   border: 8px solid $linkColor;
   button {
     margin-bottom: 30px;
+    &:hover {
+      border-color: $linkColor;
+    }
   }
   // h1 {
   //   background-color: red;

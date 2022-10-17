@@ -9,6 +9,7 @@
 </template>
 <style lang="scss" scoped>
 @use "../style.scss" as *;
+
 footer {
   position: fixed;
   left: 0;
