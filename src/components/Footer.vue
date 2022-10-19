@@ -2,7 +2,6 @@
   <footer>
     Made with <fa class="heart" icon="heart" /> By
     <a target="_blank" href="https://github.com/maciekt07">
-      <!-- <fa :icon="['fab', 'github']" />&nbsp; -->
       github.com/maciekt07</a
     >
   </footer>

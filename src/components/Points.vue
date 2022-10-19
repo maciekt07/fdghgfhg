@@ -4,11 +4,11 @@ defineProps({
 });
 </script>
 <template>
-  <h1 v-if="Points > 0" class="points">Points: {{ Points }}</h1>
+  <div v-if="Points > 0">Points: {{ Points }}</div>
 </template>
 
 <style lang="scss" scoped>
-.points {
+div {
   text-align: left;
   font-size: 18px;
   margin-right: 350px;

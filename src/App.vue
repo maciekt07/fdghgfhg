@@ -67,7 +67,7 @@ const main = {
         this.tooShort = true;
         this.messageVisible = true;
         this.message1 = "Answer is too short!";
-        this.message2 = this.userInput;
+        this.message2 = `${this.userInput.length}/7`;
       }
     },
     back() {
@@ -87,7 +87,6 @@ export default main;
   <div class="container" :class="{ start: !start }">
     <Points v-if="start" :Points="points" />
     <div v-if="start" class="Color"></div>
-
     <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
     <input
@@ -104,7 +103,10 @@ export default main;
       :placeholder="!inputDisabled ? 'Enter hex code...' : ''"
     />
     <br />
-    <button v-if="(start && !messageVisible) || tooShort" @click="submitCheck">
+    <button
+      v-if="(start && !messageVisible) || (tooShort && start)"
+      @click="submitCheck"
+    >
       <fa icon="check" />&nbsp;Submit</button
     ><br v-if="start" />
 
@@ -174,6 +176,7 @@ input[type="text"] {
   height: 650px;
   transition: 0.3s;
   box-shadow: 0px 0px 50px 1px v-bind(clr);
+  background: #242424;
 }
 .start {
   height: 250px;
@@ -185,19 +188,9 @@ input[type="text"] {
       border-color: $linkColor;
     }
   }
-  // h1 {
-  //   background-color: red;
-  //   background-image: linear-gradient(45deg, #566dff, #8a50f6);
-  //   background-size: 100%;
-  //   background-repeat: repeat;
-  //   -webkit-background-clip: text;
-  //   -webkit-text-fill-color: transparent;
-  //   -moz-background-clip: text;
-  //   -moz-text-fill-color: transparent;
-  // }
+
   *::selection {
     background: lighten($color: $linkColor, $amount: 15);
-    color: rgb(119, 0, 255);
   }
 }
 

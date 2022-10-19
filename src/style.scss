@@ -13,7 +13,7 @@ $error: red;
 }
 @mixin footerSelection() {
   &::selection {
-    background: lighten($color: #a200ff, $amount: 10);
+    background: lighten($color: $linkColor, $amount: 15);
   }
 }
 :root {
