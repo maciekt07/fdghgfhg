@@ -81,6 +81,12 @@ br {
   user-select: none;
 }
 
+@media (max-width: 860px) {
+  .back {
+    display: none;
+  }
+}
+
 // @media (prefers-color-scheme: light) {
 //   * {
 //     color: black;

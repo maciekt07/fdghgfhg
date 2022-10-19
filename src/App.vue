@@ -70,6 +70,10 @@ const main = {
         this.message2 = this.userInput;
       }
     },
+    back() {
+      this.start = false;
+      this.clr = "";
+    },
   },
   components: { Footer, Message, Points },
 };
@@ -77,9 +81,12 @@ export default main;
 </script>
 
 <template>
+  <button v-if="start" class="back" @click="back">
+    <fa icon="chevron-left" />&nbsp;Back
+  </button>
   <div class="container" :class="{ start: !start }">
     <Points v-if="start" :Points="points" />
-    <div class="Color"></div>
+    <div v-if="start" class="Color"></div>
 
     <h1 v-if="!start">RGB To HEX Game</h1>
     <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
@@ -110,7 +117,7 @@ export default main;
       :Message1="message1"
       :Message2="message2"
       :BorderColor="clr"
-      v-if="messageVisible"
+      v-if="messageVisible && start"
     />
   </div>
 
@@ -145,6 +152,13 @@ input[type="text"] {
   &.success:focus-visible {
     @include inputFocus($success);
   }
+}
+
+.back {
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin: 20px;
 }
 
 .container {
