@@ -107,8 +107,8 @@ export default main;
       v-if="(start && !messageVisible) || (tooShort && start)"
       @click="submitCheck"
     >
-      <fa icon="check" />&nbsp;Submit</button
-    ><br v-if="start" />
+      <fa icon="check" />&nbsp;Submit
+    </button>
 
     <button v-if="(messageVisible && !tooShort) || !start" @click="random">
       <span v-if="!start"> <fa icon="play" /> &nbsp;Start</span>
@@ -128,33 +128,6 @@ export default main;
 
 <style lang="scss" scoped>
 @use "style" as *;
-input[type="text"] {
-  font-size: 20px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  transition: 0.2s;
-  background: rgb(52, 52, 52);
-  color: white;
-  &:disabled {
-    cursor: not-allowed;
-    color: darken($color: white, $amount: 25);
-  }
-  &:hover {
-    border-color: v-bind(clr);
-    &:disabled {
-      border: 2px solid transparent;
-    }
-  }
-  &.error:focus,
-  &.error:focus-visible {
-    @include inputFocus($error);
-  }
-  &.success:focus,
-  &.success:focus-visible {
-    @include inputFocus($success);
-  }
-}
 
 .back {
   top: 0;
@@ -198,7 +171,7 @@ input[type="text"] {
   width: 100px;
   height: 100px;
   background: v-bind(clr);
-  border-radius: 18px;
+  border-radius: 25px;
   transition: 0.3s;
 }
 </style>

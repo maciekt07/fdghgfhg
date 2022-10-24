@@ -8,11 +8,13 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
+@use "../style.scss" as *;
 div {
+  transition: 0.3s;
   text-align: left;
   font-size: 18px;
   margin-right: 350px;
-  background: rgb(77, 77, 77);
+  background: $inputBackground;
   border-radius: 6px;
   padding: 8px;
 }

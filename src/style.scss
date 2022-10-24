@@ -2,6 +2,7 @@
 $linkColor: #3abdff;
 $success: green;
 $error: red;
+$inputBackground: rgb(70, 70, 70);
 
 @mixin inputFocus($clr) {
   outline: 3px solid $clr;
@@ -47,6 +48,37 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+input[type="text"] {
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: 0.2s;
+  background: $inputBackground;
+  color: white;
+  &::placeholder {
+    color: transparentize($color: #ffffff, $amount: 0.4);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: darken($color: white, $amount: 25);
+  }
+  &:hover {
+    border-color: v-bind(clr);
+    &:disabled {
+      border: 2px solid transparent;
+    }
+  }
+  &.error:focus,
+  &.error:focus-visible {
+    @include inputFocus($error);
+  }
+  &.success:focus,
+  &.success:focus-visible {
+    @include inputFocus($success);
+  }
 }
 
 button {

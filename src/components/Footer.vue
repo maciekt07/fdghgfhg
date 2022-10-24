@@ -38,6 +38,7 @@ a {
   color: $linkColor;
   display: inline-block;
   position: relative;
+  text-decoration: none;
   @include footerSelection();
   &::after {
     content: "";
