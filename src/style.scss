@@ -2,7 +2,7 @@
 $linkColor: #3abdff;
 $success: green;
 $error: red;
-$inputBackground: rgb(70, 70, 70);
+$inputBackground: rgb(57, 57, 57);
 
 @mixin inputFocus($clr) {
   outline: 3px solid $clr;
