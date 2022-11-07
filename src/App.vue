@@ -1,85 +1,87 @@
-<script>
+<script setup>
 import Footer from "./components/Footer.vue";
 import Message from "./components/Message.vue";
 import Points from "./components/Points.vue";
+import { ref } from "vue";
 
-const main = {
-  data() {
-    return {
-      r: Number,
-      g: Number,
-      b: Number,
-      points: 0,
-      start: false,
-      messageVisible: false,
-      inputDisabled: false,
-      tooShort: false,
-      clr: String,
-      userInput: String,
-      message1: String,
-      message2: String,
-    };
-  },
-  methods: {
-    rgbToHex(r, g, b) {
-      return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    },
-    random() {
-      this.r = Math.floor(Math.random() * 256);
-      this.g = Math.floor(Math.random() * 256);
-      this.b = Math.floor(Math.random() * 256);
-      this.clr = `rgb(${this.r}, ${this.g}, ${this.b})`;
-      this.start = true;
-      this.messageVisible = false;
-      this.inputDisabled = false;
-      this.tooShort = false;
-      this.userInput = "";
-      console.log(`Correct answer: ${this.rgbToHex(this.r, this.g, this.b)}`);
-    },
-    submit() {
-      const correctAnswer = this.rgbToHex(this.r, this.g, this.b);
-      this.inputDisabled = true;
-      this.messageVisible = true;
-      if (
-        this.userInput == correctAnswer ||
-        this.userInput == correctAnswer.toUpperCase()
-      ) {
-        this.message1 = "Answer is correct!";
-        return true;
-      } else {
-        this.message1 = "Answer isn't correct! The correct answer was";
-        this.message2 = this.rgbToHex(this.r, this.g, this.b);
-        return false;
-      }
-    },
-    submitCheck() {
-      if (this.userInput.length == 7) {
-        if (
-          this.userInput == this.rgbToHex(this.r, this.g, this.b) ||
-          this.userInput == this.rgbToHex(this.r, this.g, this.b).toUpperCase()
-        ) {
-          this.points++;
-        }
-        this.message2 = `Points: ${this.points}`;
-        this.submit();
-        this.tooShort = false;
-      } else {
-        this.tooShort = true;
-        this.messageVisible = true;
-        this.message1 = "Answer is too short!";
-        this.message2 = `${this.userInput.length}/7`;
-      }
-    },
-    back() {
-      this.start = false;
-      this.clr = "";
-    },
-  },
-  components: { Footer, Message, Points },
+let r = ref(Number);
+let g = ref(Number);
+let b = ref(Number);
+let points = ref(0);
+let start = ref(false);
+let messageVisible = ref(false);
+let inputDisabled = ref(false);
+let tooShort = ref(false);
+let clr = ref(String);
+let userInput = ref(String);
+let message1 = ref(String);
+let message2 = ref(String);
+
+const rgbToHex = (r, g, b) => {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 };
-export default main;
-</script>
 
+const random = () => {
+  r.value = Math.floor(Math.random() * 256);
+  g.value = Math.floor(Math.random() * 256);
+  b.value = Math.floor(Math.random() * 256);
+  clr.value = `rgb(${r.value}, ${g.value}, ${b.value})`;
+  document
+    .querySelector('meta[name="theme-color"]')
+    .setAttribute("content", clr.value);
+  start.value = ref(false);
+  messageVisible.value = false;
+  inputDisabled.value = false;
+  tooShort.value = false;
+  userInput.value = "";
+  console.log(`Correct answer: ${rgbToHex(r.value, g.value, b.value)}`);
+};
+
+const submit = () => {
+  const correctAnswer = rgbToHex(r.value, g.value, b.value);
+  inputDisabled.value = true;
+  messageVisible.value = true;
+  if (
+    userInput.value == correctAnswer ||
+    userInput.value == correctAnswer.toUpperCase()
+  ) {
+    message1.value = "Answer is correct!";
+    return true;
+  } else {
+    message1.value = "Answer isn't correct! The correct answer was";
+    message2.value = rgbToHex(r.value, g.value, b.value);
+    return false;
+  }
+};
+
+const submitCheck = () => {
+  console.log(`User Input: ${userInput.value}`);
+  if (userInput.value.length == 7) {
+    if (
+      userInput.value == rgbToHex(r.value, g.value, b.value) ||
+      userInput.value == rgbToHex(r.value, g.value, b.value).toUpperCase()
+    ) {
+      points.value++;
+    }
+    message2.value = `Points: ${points.value}`;
+    submit();
+    tooShort.value = false;
+  } else {
+    tooShort.value = true;
+    messageVisible.value = true;
+    message1.value = "Answer is too short!";
+    message2.value = `${userInput.value.length}/7`;
+  }
+};
+
+const back = () => {
+  start.value = false;
+  clr.value = "";
+  document
+    .querySelector('meta[name="theme-color"]')
+    .setAttribute("content", clr.value);
+};
+</script>
 <template>
   <button v-if="start" class="back" @click="back">
     <fa icon="chevron-left" />&nbsp;Back
@@ -125,7 +127,6 @@ export default main;
 
   <Footer v-if="!start" />
 </template>
-
 <style lang="scss" scoped>
 @use "style" as *;
 
