@@ -17,9 +17,8 @@ let userInput = ref(String);
 let message1 = ref(String);
 let message2 = ref(String);
 
-const rgbToHex = (r, g, b) => {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-};
+const rgbToHex = (r, g, b) =>
+  "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 
 const random = () => {
   r.value = Math.floor(Math.random() * 256);
@@ -79,7 +78,7 @@ const back = () => {
   clr.value = "";
   document
     .querySelector('meta[name="theme-color"]')
-    .setAttribute("content", clr.value);
+    .setAttribute("content", "#3abdff");
 };
 </script>
 <template>
@@ -90,7 +89,7 @@ const back = () => {
     <Points v-if="start" :Points="points" />
     <div v-if="start" class="Color"></div>
     <h1 v-if="!start">RGB To HEX Game</h1>
-    <h1 v-if="start">{{ `RGB: ${r} ${g} ${b}` }}</h1>
+    <h1 v-if="start">{{ `RGB: ${r}, ${g}, ${b}` }}</h1>
     <input
       :class="{
         success: userInput.length == 7,
@@ -138,7 +137,6 @@ const back = () => {
 }
 
 .container {
-  font-family: poppins;
   justify-content: center;
   align-items: center;
   display: flex;
